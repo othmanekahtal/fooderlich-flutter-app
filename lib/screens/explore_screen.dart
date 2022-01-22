@@ -4,16 +4,41 @@ import 'package:fooderlich/components/today_recipe_list_view.dart';
 import '../models/models.dart';
 import '../api/mock_fooderlich_service.dart';
 
-class ExploreScreen extends StatelessWidget {
-// 1
-  final mockService = MockFooderlichService();
+class ExploreScreen extends StatefulWidget {
   ExploreScreen({Key? key}) : super(key: key);
 
   @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+// 1
+  late ScrollController _scrollController;
+  void _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      print('i am at the bottom!');
+    }
+    // 2
+    if (_scrollController.offset <=
+            _scrollController.position.minScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      print('i am at the top!');
+    }
+  }
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  final mockService = MockFooderlichService();
+
+  @override
   Widget build(BuildContext context) {
-// 2
-// TODO 1: Add TodayRecipeListView FutureBuilder
-    // 1
     return FutureBuilder(
       // 2
       future: mockService.getExploreData(),
@@ -29,15 +54,11 @@ class ExploreScreen extends StatelessWidget {
           final recipes = snapshot.data?.todayRecipes ?? [];
           final friendPosts = snapshot.data?.friendPosts ?? [];
           return ListView(
-// 6
+            controller: _scrollController,
             scrollDirection: Axis.vertical,
             children: [
-// 7
               TodayRecipeListView(recipes: recipes),
-// 8
               const SizedBox(height: 16),
-// 9
-// TODO: Replace this with FriendPostListView
               FriendPostListView(friendPosts: friendPosts),
             ],
           );
