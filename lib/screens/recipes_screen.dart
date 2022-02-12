@@ -22,7 +22,10 @@ class RecipesScreen extends StatelessWidget {
           return RecipesGridView(recipes: snapshot.data ?? []);
         } else {
           // 6
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(
+            color: Colors.amber,
+          ));
         }
       },
     );
