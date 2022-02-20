@@ -1,5 +1,0 @@
-// this doc for notes :
-Chapter 5: Scrollable Widgets
-to make app Scrollable we use two main Widgets: ListView,GridView
-
-// for more organize and maintainable  code we but all components in folder and but file one for make access to all components like a components.dart file in components/ folder
